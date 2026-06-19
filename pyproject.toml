@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "fluent-python-journey"
+version = "0.1.0"
+description = "A deep, chapter-by-chapter engineering journey through Fluent Python (2nd Ed.)"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Uttkarsh", email = "uttkarshsahurkar@gmail.com" }]
+license = { text = "MIT" }
+keywords = ["python", "learning", "fluent-python", "engineering", "portfolio"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ANN", # flake8-annotations
+]
+ignore = [
+    "ANN101",  # missing type annotation for self
+    "ANN102",  # missing type annotation for cls
+]
+
+[tool.ruff.lint.per-file-ignores]
+"benchmarks.py" = ["ANN"]
+"**/exercises.py" = ["ANN"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+warn_return_any = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]

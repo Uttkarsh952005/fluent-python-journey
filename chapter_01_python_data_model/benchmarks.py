@@ -15,8 +15,12 @@ Benchmarks:
 
 from __future__ import annotations
 
+import sys
 import timeit
 from typing import Any
+
+# Windows PowerShell UTF-8 compatibility
+sys.stdout.reconfigure(encoding="utf-8")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -104,14 +108,14 @@ def run_benchmark(label: str, stmt: str, setup: str = "", number: int = NUMBER) 
 
 
 def section(title: str) -> None:
-    print(f"\n{'═' * 60}")
+    print(f"\n{'=' * 60}")
     print(f"  {title}")
-    print(f"{'═' * 60}")
+    print(f"{'=' * 60}")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Benchmark 1: len() vs .__len__() on built-in list
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 section("Benchmark 1: len() vs .__len__() on built-in list")
 print("  (Tests whether C-level shortcut in len() matters)")
@@ -121,7 +125,7 @@ t1 = run_benchmark("len(SAMPLE_LIST)", "len(SAMPLE_LIST)")
 t2 = run_benchmark("SAMPLE_LIST.__len__()", "SAMPLE_LIST.__len__()")
 
 ratio = t2 / t1
-print(f"\n  → __len__() is {ratio:.1f}x slower than len() on built-ins")
+print(f"\n  -> __len__() is {ratio:.1f}x slower than len() on built-ins")
 print("  Reason: len() uses C tp_as_sequence->sq_length; .__len__() goes through")
 print("  Python's attribute lookup machinery (LOAD_ATTR + CALL opcodes).")
 
@@ -140,7 +144,7 @@ t3 = run_benchmark("len(seq)", "len(seq)", setup="seq = MinimalSequence(SAMPLE_L
 t4 = run_benchmark("seq.__len__()", "seq.__len__()", setup="seq = MinimalSequence(SAMPLE_LIST)")
 
 ratio2 = t4 / t3
-print(f"\n  → __len__() is {ratio2:.2f}x {'slower' if ratio2 > 1 else 'faster'} than len() on user class")
+print(f"\n  -> __len__() is {ratio2:.2f}x {'slower' if ratio2 > 1 else 'faster'} than len() on user class")
 print("  Reason: len() still has slight overhead for checking return value is int >= 0.")
 
 
@@ -159,7 +163,7 @@ t5 = run_benchmark("999 in WithContains (O(1) set)", "999 in wc", setup="wc = Wi
 t6 = run_benchmark("999 in WithoutContains (O(n) scan)", "999 in woc", setup="woc = WithoutContains(SAMPLE_LIST)", number=100_000)
 
 ratio3 = t6 / t5
-print(f"\n  → __contains__ override is {ratio3:.0f}x faster for near-end lookup")
+print(f"\n  -> __contains__ override is {ratio3:.0f}x faster for near-end lookup")
 print("  Lesson: Always implement __contains__ when you can do better than O(n).")
 
 
@@ -178,7 +182,7 @@ t7 = run_benchmark("bool(WithBool)  — explicit __bool__", "bool(wb)", setup="w
 t8 = run_benchmark("bool(WithLenOnly) — __len__ fallback", "bool(wl)", setup="wl = WithLenOnly(1)")
 
 ratio4 = t8 / t7
-print(f"\n  → __len__ fallback for truthiness is {ratio4:.1f}x slower than explicit __bool__")
+print(f"\n  -> __len__ fallback for truthiness is {ratio4:.1f}x slower than explicit __bool__")
 print("  Lesson: For performance-critical code, implement __bool__ explicitly")
 print("  rather than relying on the fallback chain.")
 

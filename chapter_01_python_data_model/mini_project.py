@@ -20,8 +20,12 @@ from __future__ import annotations
 
 import collections
 import random
+import sys
 from contextlib import contextmanager
 from typing import Generator, Iterator
+
+# Windows PowerShell UTF-8 compatibility
+sys.stdout.reconfigure(encoding="utf-8")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -144,7 +148,7 @@ def game_session(player_names: list[str]) -> Generator[dict[str, Hand], None, No
         with game_session(["Alice", "Bob"]) as hands:
             # deal cards, play game
     """
-    print(f"🃏 Starting game with: {', '.join(player_names)}")
+    print(f"[START] Starting game with: {', '.join(player_names)}")
     deck = Deck().shuffled()
     hands: dict[str, Hand] = {}
 
@@ -157,7 +161,7 @@ def game_session(player_names: list[str]) -> Generator[dict[str, Hand], None, No
     try:
         yield hands
     finally:
-        print("🏁 Game session ended")
+        print("[END] Game session ended")
         print("  Final hands:")
         for name, hand in hands.items():
             print(f"    {name}: {hand}")
@@ -177,25 +181,25 @@ def determine_winner(hands: dict[str, Hand]) -> str | None:
 
 def main() -> None:
     print("=" * 50)
-    print("  Card Game Engine — Data Model Demo")
+    print("  Card Game Engine -- Data Model Demo")
     print("=" * 50)
 
     players = ["Alice", "Bob", "Charlie"]
 
     with game_session(players) as hands:
         # Show each player's hand
-        print("\n📋 Current hands:")
+        print("\n[HANDS] Current hands:")
         for name, hand in hands.items():
             print(f"  {name}: score={hand.score}, best={hand.best_card}")
 
         # Determine winner
         winner = determine_winner(hands)
-        print(f"\n🏆 Winner: {winner} with score {hands[winner].score}")  # type: ignore[index]
+        print(f"\n[WIN] Winner: {winner} with score {hands[winner].score}")  # type: ignore[index]
 
         # Demonstrate __iadd__
         extra_card = Card("A", "spades")
         hands["Alice"] += extra_card
-        print(f"\n⚡ Alice draws extra card ({extra_card.rank}♠): {hands['Alice']}")
+        print(f"\n[DRAW] Alice draws extra card ({extra_card.rank} of spades): {hands['Alice']}")
 
         # Demonstrate truthiness
         empty_hand = Hand()

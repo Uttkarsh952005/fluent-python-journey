@@ -23,18 +23,22 @@ import sys
 import timeit
 from collections import deque
 
+# Windows PowerShell UTF-8 compatibility
+sys.stdout.reconfigure(encoding="utf-8")
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Config
 # ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 N = 100_000     # Size of collections
 REPS = 500      # Repetitions for timeit
 MILLION = 1_000_000
 
 
 def header(title: str) -> None:
-    print(f"\n{'═' * 65}")
+    print(f"\n{'=' * 65}")
     print(f"  {title}")
-    print(f"{'═' * 65}")
+    print(f"{'=' * 65}")
 
 
 def bench(label: str, stmt: str, setup: str = "pass", reps: int = REPS) -> float:
@@ -46,9 +50,9 @@ def bench(label: str, stmt: str, setup: str = "pass", reps: int = REPS) -> float
     return ms
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Benchmark 1: Memory Footprint
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 header("Benchmark 1: Memory Footprint (100,000 floats)")
 
@@ -81,9 +85,9 @@ print(f"\n  → list stores POINTERS to Python objects (8 bytes each + object ov
 print(f"  → array.array stores raw C doubles (8 bytes each, no object overhead)")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Benchmark 2: Construction Time
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 header("Benchmark 2: Construction Time (100,000 elements)")
 
@@ -93,13 +97,13 @@ t3 = bench("array.array('d', range(N))", "array.array('d', range(N))",
            setup="import array; N=100_000")
 t4 = bench("[x for x in range(N)]", "[x for x in range(N)]", setup="N=100_000")
 
-print(f"\n  → tuple construction is slightly faster: no over-allocation needed")
-print(f"  → array.array is slower to construct (type conversion per element)")
+print(f"\n  -> tuple construction is slightly faster: no over-allocation needed")
+print(f"  -> array.array is slower to construct (type conversion per element)")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Benchmark 3: Append Performance — list vs deque
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 header("Benchmark 3: Append Performance (10,000 appends)")
 
@@ -128,14 +132,14 @@ t8 = bench(
     reps=200,
 )
 
-print(f"\n  → list.insert(0, x) is {t6/t5:.0f}x slower than list.append(x)")
-print(f"  → deque.appendleft is O(1) — similar speed to deque.append")
-print(f"  → Use deque when prepending frequently; list when appending to end only")
+print(f"\n  -> list.insert(0, x) is {t6/t5:.0f}x slower than list.append(x)")
+print(f"  -> deque.appendleft is O(1) -- similar speed to deque.append")
+print(f"  -> Use deque when prepending frequently; list when appending to end only")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Benchmark 4: Membership Test — list vs set
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 header("Benchmark 4: Membership Test (item near end of 10,000-element collection)")
 
@@ -162,13 +166,13 @@ t11 = bench(
     reps=10_000,
 )
 
-print(f"\n  → set lookup is {t9/t10:.0f}x faster than list/deque for membership test")
-print(f"  → For any 'X in collection' in a hot path, convert to set first")
+print(f"\n  -> set lookup is {t9/t10:.0f}x faster than list/deque for membership test")
+print(f"  -> For any 'X in collection' in a hot path, convert to set first")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Benchmark 5: memoryview vs bytearray Slicing
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 header("Benchmark 5: memoryview vs bytearray Slicing (1 MB slice from 10 MB buffer)")
 
@@ -186,14 +190,14 @@ t13 = bench(
 )
 
 speedup = t12 / t13
-print(f"\n  → memoryview slicing is {speedup:.0f}x faster — zero bytes copied!")
-print(f"  → Use memoryview for any operation that slices large binary buffers")
-print(f"  → Critical for: image processing, network protocols, binary file formats")
+print(f"\n  -> memoryview slicing is {speedup:.0f}x faster -- zero bytes copied!")
+print(f"  -> Use memoryview for any operation that slices large binary buffers")
+print(f"  -> Critical for: image processing, network protocols, binary file formats")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Benchmark 6: Listcomp vs map() vs genexpr for simple transforms
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 header("Benchmark 6: Listcomp vs map() vs genexpr (100,000 elements)")
 
@@ -214,14 +218,14 @@ t17 = bench(
     "[str(x) for x in range(100_000)]",
 )
 
-print(f"\n  → map() with lambda is slower than listcomp (lambda call overhead)")
-print(f"  → map() with built-in (str, int, float) is faster than listcomp")
-print(f"  → Rule: listcomp for custom logic; map(builtin, iterable) for type conversion")
+print(f"\n  -> map() with lambda is slower than listcomp (lambda call overhead)")
+print(f"  -> map() with built-in (str, int, float) is faster than listcomp")
+print(f"  -> Rule: listcomp for custom logic; map(builtin, iterable) for type conversion")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Summary
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 header("Summary — When to Use Which Sequence Type")
 print("""

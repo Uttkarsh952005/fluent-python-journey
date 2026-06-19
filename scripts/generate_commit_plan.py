@@ -13,6 +13,10 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import sys
+
+# Windows PowerShell UTF-8 compatibility
+sys.stdout.reconfigure(encoding="utf-8")
 
 
 COMMIT_TEMPLATES = [
@@ -77,7 +81,7 @@ def generate_plan(chapter_num: str, title: str) -> None:
 
     for day_offset, daily_count in enumerate(commits_per_day):
         date = start_date + datetime.timedelta(days=day_offset)
-        print(f"  📅 Day {day_offset + 1} ({date.strftime('%Y-%m-%d')}):")
+        print(f"  [DAY {day_offset + 1}] {date.strftime('%Y-%m-%d')}:")
 
         for _ in range(daily_count):
             if commit_idx >= len(COMMIT_TEMPLATES):
@@ -99,13 +103,13 @@ def generate_plan(chapter_num: str, title: str) -> None:
 
         print()
 
-    print("  💡 Customize the [fill: ...] placeholders with chapter-specific terms.")
-    print("  💡 Add commits between these as your implementation grows.")
-    print("  💡 Never: 'update file', 'fix stuff', 'wip', or whitespace commits.")
+    print("  NOTE: Customize the [fill: ...] placeholders with chapter-specific terms.")
+    print("  NOTE: Add commits between these as your implementation grows.")
+    print("  NOTE: Never: 'update file', 'fix stuff', 'wip', or whitespace commits.")
     print()
     print("  Example actual commits for Chapter 2:")
     print("    feat(ch02): implement array.array memory demo with sys.getsizeof")
-    print("    bench(ch02): benchmark memoryview slice vs bytearray copy — 100x faster")
+    print("    bench(ch02): benchmark memoryview slice vs bytearray copy - 100x faster")
     print("    feat(ch02): add RingBuffer exercise using deque(maxlen)")
     print("    docs(ch02): document list growth policy with CPython formula")
 

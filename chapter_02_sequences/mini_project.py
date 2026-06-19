@@ -27,6 +27,9 @@ import sys
 from collections import deque, namedtuple
 from typing import Generator, Iterator
 
+# Windows PowerShell UTF-8 compatibility
+sys.stdout.reconfigure(encoding="utf-8")
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Data model
@@ -185,11 +188,11 @@ class AnomalyDetector:
 
     def report(self) -> None:
         if not self.anomalies:
-            print("  ✅ No anomalies detected")
+            print("  [OK] No anomalies detected")
         else:
-            print(f"  ⚠️  {len(self.anomalies)} anomalies found:")
+            print(f"  [WARN] {len(self.anomalies)} anomalies found:")
             for idx, val, z in self.anomalies[:5]:  # Show first 5
-                print(f"     Index {idx:5d}: temp={val:7.2f}°C  z-score={z:.2f}")
+                print(f"     Index {idx:5d}: temp={val:7.2f}C  z-score={z:.2f}")
             if len(self.anomalies) > 5:
                 print(f"     ... and {len(self.anomalies) - 5} more")
 
@@ -200,22 +203,21 @@ class AnomalyDetector:
 
 def main() -> None:
     print("=" * 60)
-    print("  Sensor Data Pipeline — Sequence Types Demo")
+    print("  Sensor Data Pipeline -- Sequence Types Demo")
     print("=" * 60)
 
-    # ── Generate synthetic data ──
+    # -- Generate synthetic data --
     N = 10_000
-    print(f"\n📊 Generating {N:,} sensor readings...")
+    print(f"\n[GEN] Generating {N:,} sensor readings...")
     csv_data = generate_sample_csv(N)
     print(f"   CSV size: {sys.getsizeof(csv_data) / 1024:.0f} KB")
 
-    # ── Compose the generator pipeline ──
-    # These don't execute yet — they're lazy:
+    # Compose the generator pipeline (these are lazy -- no data yet):
     raw_readings = read_csv_lazy(csv_data)
     valid_readings = validate_readings(raw_readings, temp_range=(-10.0, 50.0))
 
-    # ── Ingest into compact storage ──
-    print("\n📥 Ingesting into SensorStore...")
+    # -- Ingest into compact storage --
+    print("\n[INGEST] Ingesting into SensorStore...")
     store = SensorStore()
     count = store.ingest(valid_readings)
 
@@ -228,33 +230,33 @@ def main() -> None:
     print(f"   Naive list equivalent: ~{naive_list_size / 1024:.1f} KB")
     print(f"   array.array savings: {naive_list_size / mem['total_bytes']:.1f}x less memory for numerics")
 
-    # ── Statistics ──
+    # -- Statistics --
     stats = store.statistics_report()
-    print(f"\n📈 Temperature Statistics:")
+    print(f"\n[STATS] Temperature Statistics:")
     print(f"   Count: {stats['count']:,}")
     print(f"   Mean:  {stats['mean_temp']:+.2f}°C")
     print(f"   Stdev: {stats['stdev_temp']:.2f}°C")
     print(f"   Range: {stats['min_temp']:.2f}°C to {stats['max_temp']:.2f}°C")
 
-    # ── Anomaly detection ──
-    print(f"\n🔍 Running anomaly detection (window=20, z>{2.5})...")
+    # -- Anomaly detection --
+    print(f"\n[SCAN] Running anomaly detection (window=20, z>{2.5})...")
     detector = AnomalyDetector(window_size=20, z_threshold=2.5)
     detector.process(store.temperatures)
     detector.report()
 
-    # ── Zero-copy binary export ──
-    print(f"\n💾 Exporting temperature data as binary...")
+    # -- Zero-copy binary export --
+    print(f"\n[EXPORT] Exporting temperature data as binary...")
     binary_view = store.export_binary()
     print(f"   memoryview: {binary_view.nbytes:,} bytes, format='{binary_view.format}'")
     print(f"   Slicing binary_view[0:100] copies 0 bytes — zero-copy!")
     chunk = binary_view[0:100]  # No allocation
     print(f"   First 5 temps: {list(chunk.tolist()[:5])}")
 
-    print("\n✅ Pipeline complete — sequence type selection was deliberate:")
-    print("   Generator pipeline → O(1) memory for CSV reading")
-    print("   array.array        → 4x memory savings for numeric data")
-    print("   deque(maxlen)      → O(1) sliding window with auto-eviction")
-    print("   memoryview         → Zero-copy binary export")
+    print("\n[DONE] Pipeline complete -- sequence type selection was deliberate:")
+    print("   Generator pipeline -> O(1) memory for CSV reading")
+    print("   array.array        -> 4x memory savings for numeric data")
+    print("   deque(maxlen)      -> O(1) sliding window with auto-eviction")
+    print("   memoryview         -> Zero-copy binary export")
 
 
 if __name__ == "__main__":

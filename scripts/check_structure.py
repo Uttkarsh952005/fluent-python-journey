@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-check_structure.py — Validate that all chapter folders are complete.
+check_structure.py -- Validate that all chapter folders are complete.
 
 Checks each chapter_XX_* directory for the required files.
 Reports missing files and gives a completion summary.
@@ -15,6 +15,9 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
+
+# Windows PowerShell UTF-8 compatibility
+sys.stdout.reconfigure(encoding="utf-8")
 
 REQUIRED_FILES = [
     "README.md",
@@ -42,7 +45,7 @@ def is_stub(filepath: Path) -> bool:
 
 def check_chapter(chapter_dir: Path) -> dict:
     """Check a single chapter directory. Returns result dict."""
-    result = {
+    result: dict = {
         "name": chapter_dir.name,
         "present": [],
         "missing": [],
@@ -67,8 +70,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Validate fluent-python-journey chapter structure."
     )
-    parser.add_argument("--strict", action="store_true", help="Exit with error if any chapter is incomplete")
-    parser.add_argument("--base", type=Path, default=Path(__file__).parent.parent)
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit with error if any chapter is incomplete",
+    )
+    parser.add_argument(
+        "--base",
+        type=Path,
+        default=Path(__file__).parent.parent,
+    )
     args = parser.parse_args()
 
     base_dir = args.base
@@ -77,11 +88,11 @@ def main() -> None:
     )
 
     if not chapter_dirs:
-        print("❌ No chapter directories found.")
+        print("[ERROR] No chapter directories found.")
         sys.exit(1)
 
     print("=" * 65)
-    print("  Fluent Python Journey — Structure Check")
+    print("  Fluent Python Journey -- Structure Check")
     print("=" * 65)
     print(f"  Base: {base_dir}")
     print(f"  Chapters found: {len(chapter_dirs)}")
@@ -89,36 +100,34 @@ def main() -> None:
 
     total_complete = 0
     total_incomplete = 0
-    all_missing: list[str] = []
 
     for chapter_dir in chapter_dirs:
         result = check_chapter(chapter_dir)
 
         if result["complete"]:
-            status = "✅"
+            status = "[OK]     "
             total_complete += 1
         elif result["missing"]:
-            status = "❌"
+            status = "[MISSING]"
             total_incomplete += 1
         else:
-            status = "⚠️ "
+            status = "[STUBS]  "
             total_incomplete += 1
 
         stub_info = f"  ({len(result['stubs'])} stubs)" if result["stubs"] else ""
         missing_info = f"  MISSING: {result['missing']}" if result["missing"] else ""
 
         print(f"  {status} {result['name']}{stub_info}{missing_info}")
-        all_missing.extend(result["missing"])
 
     print()
-    print("─" * 65)
+    print("-" * 65)
     print(f"  Complete:   {total_complete}/{len(chapter_dirs)} chapters")
     print(f"  Incomplete: {total_incomplete}/{len(chapter_dirs)} chapters")
 
     if total_incomplete == 0:
-        print("\n  🎉 All chapters are complete and fully implemented!")
+        print("\n  >> All chapters are complete and fully implemented!")
     else:
-        print(f"\n  💡 Next: complete the ⚠️/❌ chapters above.")
+        print(f"\n  -> Next: complete the [STUBS]/[MISSING] chapters above.")
 
     print()
 

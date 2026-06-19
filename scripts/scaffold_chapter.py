@@ -25,6 +25,9 @@ import re
 import sys
 from pathlib import Path
 
+# Windows PowerShell UTF-8 compatibility
+sys.stdout.reconfigure(encoding="utf-8")
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Templates
@@ -318,11 +321,11 @@ def scaffold(chapter_num: int, title: str, base_dir: Path) -> None:
     chapter_dir = base_dir / folder_name
 
     if chapter_dir.exists():
-        print(f"❌ Chapter directory already exists: {chapter_dir}")
+        print(f"[ERROR] Chapter directory already exists: {chapter_dir}")
         sys.exit(1)
 
     chapter_dir.mkdir(parents=True)
-    print(f"📁 Created: {chapter_dir}")
+    print(f"[DIR] Created: {chapter_dir}")
 
     ctx = {"num": f"{chapter_num:02d}", "title": title}
 
@@ -341,9 +344,9 @@ def scaffold(chapter_num: int, title: str, base_dir: Path) -> None:
     for filename, content in files:
         filepath = chapter_dir / filename
         filepath.write_text(content, encoding="utf-8")
-        print(f"  ✅ {filename}")
+        print(f"  [OK] {filename}")
 
-    print(f"\n✨ Chapter {chapter_num:02d} scaffold complete: {folder_name}/")
+    print(f"\n[DONE] Chapter {chapter_num:02d} scaffold complete: {folder_name}/")
     print(f"   Next steps:")
     print(f"   1. Fill in README.md with concepts and diagrams")
     print(f"   2. Build examples.py with original implementations")

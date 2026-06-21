@@ -4,7 +4,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.12+-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Book](https://img.shields.io/badge/Book-Fluent%20Python%202nd%20Ed-FF6B35?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Progress-2%2F24%20Chapters-4CAF50?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Progress-10%2F24%20Chapters-4CAF50?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Code Style](https://img.shields.io/badge/code%20style-ruff%20%2B%20black-000000?style=for-the-badge)
 
@@ -19,7 +19,7 @@ Not a tutorial copy — an original exploration of Python's internals, design, a
 
 ## 🎯 Goals
 
-This repository is not a study summary. It is an **engineering portfolio** built in public.
+This repository is a **structured engineering notebook** built in public.
 
 Every chapter produces:
 - **Original implementations** — reinterpreting book concepts, not copying them
@@ -28,7 +28,7 @@ Every chapter produces:
 - **Interview-grade explanations** — articulating concepts under pressure
 - **Mini-projects** — applying concepts to real-world scenarios
 
-The target audience is someone who wants to understand Python at a **senior engineer level** — not just write code that works, but understand *why* it works and *when* to use what.
+The target audience is someone who wants to understand Python at a **systems-oriented level** — not just write code that works, but understand *why* it works and *when* to use what.
 
 ---
 
@@ -63,34 +63,34 @@ fluent-python-journey/
 
 ## 📚 Chapter Index
 
-| # | Chapter | Status | Key Concepts | Benchmark |
-|---|---------|--------|-------------|-----------|
-| 01 | [The Python Data Model](chapter_01_python_data_model/) | ✅ Complete | `__dunder__`, protocols, special methods | Dunder vs explicit calls |
-| 02 | [An Array of Sequences](chapter_02_sequences/) | 🔄 Active | listcomp, memoryview, slicing, deque | List vs tuple vs array memory |
-| 03 | [Dicts and Sets](chapter_03_dicts_sets/) | 📋 Planned | hash tables, dict internals, set ops | Dict lookup vs list scan |
-| 04 | [Unicode Text vs Bytes](chapter_04_unicode_text_bytes/) | 📋 Planned | encoding, codec, binary protocols | — |
-| 05 | [Data Class Builders](chapter_05_data_class_builders/) | 📋 Planned | dataclasses, NamedTuple, attrs | — |
-| 06 | [Object References](chapter_06_object_references/) | 📋 Planned | identity, equality, copy, weakref | Shallow vs deep copy |
-| 07 | [Functions as First Class](chapter_07_functions_first_class/) | 📋 Planned | closures, HOF, functools | — |
-| 08 | [Type Hints in Functions](chapter_08_type_hints_functions/) | 📋 Planned | annotations, mypy, Protocol | — |
-| 09 | [Decorators and Closures](chapter_09_decorators_closures/) | 📋 Planned | `@wraps`, parametrized decorators | Decorator overhead |
-| 10 | [Design Patterns with FP](chapter_10_design_patterns_fp/) | 📋 Planned | Strategy, Command via functions | — |
+| # | Chapter | Status | Key Concepts |
+|---|---------|--------|-------------|
+| 01 | [The Python Data Model](chapter_01_python_data_model/) | ✅ Complete | `__dunder__`, protocols, special methods |
+| 02 | [An Array of Sequences](chapter_02_sequences/) | ✅ Complete | listcomp, memoryview, slicing, deque, bisect |
+| 03 | [Dicts and Sets](chapter_03_dicts_sets/) | ✅ Complete | hash tables, dict internals, `|` merge, set ops |
+| 04 | [Unicode Text vs Bytes](chapter_04_unicode_text_bytes/) | ✅ Complete | encoding, codec, NFC/NFD, Unicode sandwich |
+| 05 | [Data Class Builders](chapter_05_data_class_builders/) | ✅ Complete | `namedtuple`, `NamedTuple`, `@dataclass`, `field()` |
+| 06 | [Object References](chapter_06_object_references/) | ✅ Complete | identity, equality, shallow/deep copy, `del`, GC |
+| 07 | [Functions as First Class](chapter_07_functions_first_class/) | ✅ Complete | closures, HOF, `functools`, `operator` |
+| 08 | [Type Hints in Functions](chapter_08_type_hints_functions/) | ✅ Complete | annotations, mypy, Protocol |
+| 09 | [Decorators and Closures](chapter_09_decorators_closures/) | ✅ Complete | `@wraps`, parametrized decorators |
+| 10 | [Design Patterns with FP](chapter_10_design_patterns_fp/) | ✅ Complete | Strategy, Command via functions |
 
-> **Legend**: ✅ Complete · 🔄 Active · 📋 Planned
+> **Legend**: ✅ Complete · 📋 Planned
 
 ---
 
 ## ⚡ Performance Highlights
 
-Key benchmark findings documented across chapters:
-
 | Benchmark | Finding | Chapter |
-|-----------|---------|---------|
-| `len(obj)` vs `obj.__len__()` | Dunder dispatch via `len()` is ~15% faster due to C-level shortcut | Ch. 01 |
-| `list` vs `tuple` memory | Tuple uses ~30% less memory for same data; list over-allocates | Ch. 02 |
-| List comprehension vs `map()` | Listcomp is 10–25% faster for simple transforms; `map` shines for large iterables | Ch. 02 |
-| `memoryview` slicing | Zero-copy slicing is **100x faster** for large binary data vs regular slice | Ch. 02 |
-| `array.array` vs `list` | `array` uses 4x less memory for numeric data | Ch. 02 |
+|-----------|---------|---------| 
+| `len(obj)` vs `obj.__len__()` | Dunder dispatch via `len()` is ~15% faster (C shortcut) | Ch. 01 |
+| `list` vs `tuple` memory | Tuple uses ~30% less memory; list over-allocates | Ch. 02 |
+| `memoryview` slicing | Zero-copy slicing is **100x faster** for large binary data | Ch. 02 |
+| Dict lookup vs list scan | Dict O(1) vs list O(n) — 50x faster at N=10,000 | Ch. 03 |
+| `namedtuple` vs `@dataclass` memory | namedtuple uses ~3x less memory (no `__dict__`) | Ch. 05 |
+| `is` vs `==` | `is` is ~2-3x faster — single integer compare, no `__eq__` | Ch. 06 |
+| `copy` vs `deepcopy` | deepcopy is 10-100x slower depending on nesting depth | Ch. 06 |
 
 ---
 
@@ -129,7 +129,7 @@ By working through this repository alongside the book, you will:
 - **Read CPython source patterns** — why `len()` calls `sq_length` in C, not `__len__` directly
 - **Measure and reason about performance** — know *when* to optimize, not just *how*
 - **Think architecturally** — choose the right data structure for the right problem
-- **Write idiomatic Python** — code that senior engineers recognize as well-crafted
+- **Write practical Python** — code that is structured, efficient, and well-crafted
 
 ---
 

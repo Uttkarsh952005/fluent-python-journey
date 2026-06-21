@@ -76,3 +76,6 @@ reports/*.svg
 
 # Logs
 *.log
+
+# AI extraction artifacts
+*_extract.txt

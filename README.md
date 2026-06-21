@@ -4,7 +4,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.12+-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Book](https://img.shields.io/badge/Book-Fluent%20Python%202nd%20Ed-FF6B35?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Progress-10%2F24%20Chapters-4CAF50?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Progress-24%2F24%20Chapters-4CAF50?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Code Style](https://img.shields.io/badge/code%20style-ruff%20%2B%20black-000000?style=for-the-badge)
 
@@ -75,6 +75,20 @@ fluent-python-journey/
 | 08 | [Type Hints in Functions](chapter_08_type_hints_functions/) | ✅ Complete | annotations, mypy, Protocol |
 | 09 | [Decorators and Closures](chapter_09_decorators_closures/) | ✅ Complete | `@wraps`, parametrized decorators |
 | 10 | [Design Patterns with FP](chapter_10_design_patterns_fp/) | ✅ Complete | Strategy, Command via functions |
+| 11 | [A Pythonic Object](chapter_11_pythonic_object/) | ✅ Complete | `__repr__`, `__str__`, `__format__`, `__slots__` |
+| 12 | [Special Methods for Sequences](chapter_12_sequences_special_methods/) | ✅ Complete | vector class, slicing, dynamic attributes |
+| 13 | [Interfaces, Protocols, and ABCs](chapter_13_interfaces_protocols_abcs/) | ✅ Complete | duck typing, goose typing, `abc` module |
+| 14 | [Inheritance: For Better or For Worse](chapter_14_inheritance/) | ✅ Complete | `super()`, multiple inheritance, MRO |
+| 15 | [More About Type Hints](chapter_15_more_type_hints/) | ✅ Complete | overloaded, TypedDict, cast |
+| 16 | [Operator Overloading](chapter_16_operator_overloading/) | ✅ Complete | infix operators, augmented assignment |
+| 17 | [Iterators, Generators, and Classic Coroutines](chapter_17_iterators_generators/) | ✅ Complete | `yield`, `yield from`, `itertools` |
+| 18 | [with, match, and else Blocks](chapter_18_with_match_else/) | ✅ Complete | context managers, pattern matching |
+| 19 | [Concurrency Models in Python](chapter_19_concurrency_models/) | ✅ Complete | processes, threads, GIL, asyncio vs multiprocessing |
+| 20 | [Concurrent Executors](chapter_20_concurrent_executors/) | ✅ Complete | `concurrent.futures`, ThreadPoolExecutor |
+| 21 | [Asynchronous Programming](chapter_21_asyncio/) | ✅ Complete | `async def`, `await`, event loop |
+| 22 | [Dynamic Attributes and Properties](chapter_22_dynamic_attributes/) | ✅ Complete | `__getattr__`, `@property`, JSON parsing |
+| 23 | [Attribute Descriptors](chapter_23_attribute_descriptors/) | ✅ Complete | `__get__`, `__set__`, property internals |
+| 24 | [Class Metaprogramming](chapter_24_class_metaprogramming/) | ✅ Complete | class decorators, `__new__`, `type`, metaclasses |
 
 > **Legend**: ✅ Complete · 📋 Planned
 

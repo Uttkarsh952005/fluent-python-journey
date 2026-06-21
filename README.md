@@ -8,8 +8,8 @@
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![Code Style](https://img.shields.io/badge/code%20style-ruff%20%2B%20black-000000?style=for-the-badge)
 
-**A chapter-by-chapter deep engineering journey through Fluent Python (2nd Ed.) by Luciano Ramalho.**  
-Not a tutorial copy — an original exploration of Python's internals, design, and performance.
+**A chapter-by-chapter study of Fluent Python (2nd Ed.) by Luciano Ramalho.**  
+An exploratory notebook focused on Python's internals, design patterns, and performance characteristics.
 
 [📚 Chapters](#-chapter-index) · [⚡ Benchmarks](#-performance-highlights) · [🧠 Learning Journal](LEARNING_JOURNAL.md) · [🤝 Contributing](CONTRIBUTING.md)
 
@@ -21,14 +21,14 @@ Not a tutorial copy — an original exploration of Python's internals, design, a
 
 This repository is a **structured engineering notebook** built in public.
 
-Every chapter produces:
-- **Original implementations** — reinterpreting book concepts, not copying them
-- **Benchmarks** — measuring real performance with `timeit`, `tracemalloc`, `perf_counter`
-- **Architecture analysis** — asking *why* Python is designed this way
-- **Interview-grade explanations** — articulating concepts under pressure
-- **Mini-projects** — applying concepts to real-world scenarios
+Every chapter contains:
+- **Code examples** — runnable implementations of the book's concepts
+- **Benchmarks** — practical performance measurements using `timeit` and `perf_counter`
+- **Architecture notes** — observations on CPython design decisions
+- **Concept summaries** — structured explanations of language features
+- **Mini-projects** — small scripts applying the chapter concepts
 
-The target audience is someone who wants to understand Python at a **systems-oriented level** — not just write code that works, but understand *why* it works and *when* to use what.
+This repository tracks my progress in understanding Python at a more **systems-oriented level** — focusing on how the language works under the hood.
 
 ---
 
@@ -44,8 +44,8 @@ fluent-python-journey/
 │   ├── mini_project.py        # Standalone project applying chapter concepts
 │   ├── benchmarks.py          # Performance measurements with analysis
 │   ├── notes.md               # Structured learning notes
-│   ├── pitfalls.md            # Common mistakes + production fixes
-│   ├── interview_questions.md # Senior-level Q&A
+│   ├── pitfalls.md            # Common mistakes + fixes
+│   ├── interview_questions.md # Concept review Q&A
 │   └── architecture_notes.md  # Design decisions and Python internals
 │
 ├── scripts/
@@ -137,28 +137,15 @@ python scripts/check_structure.py
 
 ## 📊 Learning Outcomes
 
-By working through this repository alongside the book, you will:
+By working through this repository alongside the book, the goal is to:
 
-- **Understand Python's object model** — why everything is an object, how protocols work
-- **Read CPython source patterns** — why `len()` calls `sq_length` in C, not `__len__` directly
-- **Measure and reason about performance** — know *when* to optimize, not just *how*
-- **Think architecturally** — choose the right data structure for the right problem
-- **Write practical Python** — code that is structured, efficient, and well-crafted
-
----
-
-## 🔗 Related Repositories
-
-| Repo | Purpose |
-|------|---------|
-| [python-internals-playground](https://github.com/Uttkarsh952005/python-internals-playground) | Deep dives into dunder methods, descriptors, metaclasses |
-| [python-performance-lab](https://github.com/Uttkarsh952005/python-performance-lab) | Systematic benchmarking of Python data structures and algorithms |
-| [python-visualized](https://github.com/Uttkarsh952005/python-visualized) | Visual explanations of Python internals with matplotlib |
-| [python-design-patterns-pythonic](https://github.com/Uttkarsh952005/python-design-patterns-pythonic) | Pythonic design patterns with UML diagrams |
-| [python-concurrency-lab](https://github.com/Uttkarsh952005/python-concurrency-lab) | Async, threading, and multiprocessing projects |
-| [python-pitfalls-and-tricks](https://github.com/Uttkarsh952005/python-pitfalls-and-tricks) | Advanced Python mistakes, fixes, and interview traps |
+- **Understand Python's object model** — how protocols and special methods work
+- **Observe CPython source patterns** — seeing how operations map to C-level functions
+- **Measure performance** — practicing benchmarking over guessing
+- **Think architecturally** — choosing the right data structures for practical problems
 
 ---
+
 
 ## 📖 References
 
@@ -178,8 +165,8 @@ MIT License — See [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-*Built in public. Learning in depth. Engineering with intention.*
+*Learning and exploring Python internals.*
 
-**[Uttkarsh](https://github.com/Uttkarsh952005)** · Python Engineer in Progress
+**[Uttkarsh](https://github.com/Uttkarsh952005)**
 
 </div>

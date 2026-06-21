@@ -23,6 +23,8 @@ import sys
 from collections import deque
 from typing import Iterator
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 
 # =============================================================================
 # PART 1: List Comprehensions vs Generator Expressions
@@ -53,7 +55,7 @@ def listcomp_vs_genexpr_demo() -> None:
     # Consuming the generator:
     print(f"list(genexpr): {list(squares_gen)}")
     # Generators are exhausted after one pass — this returns empty:
-    print(f"list(genexpr) again: {list(squares_gen)}  ← exhausted!\n")
+    print(f"list(genexpr) again: {list(squares_gen)}  (exhausted!)\n")
 
     # ── When to use genexpr: passing to a function ──
     total = sum(x ** 2 for x in range(1000))  # No intermediate list!
@@ -135,7 +137,7 @@ def slicing_demo() -> None:
     print(f"data[1:5]     = {data[1:5]}")
     print(f"data[::2]     = {data[::2]}")   # every 2nd
     print(f"data[::-1]    = {data[::-1]}")  # reversed
-    print(f"data[-3:]     = {data[-3:]}")   # last 3\n")
+    print(f"data[-3:]     = {data[-3:]}\n")   # last 3
 
     # ── Named slices — making code self-documenting ──
     # Instead of: record[0:3], record[3:7], record[7:12]

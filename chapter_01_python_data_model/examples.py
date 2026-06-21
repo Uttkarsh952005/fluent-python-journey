@@ -13,6 +13,9 @@ NOT a copy of the book — these are original extensions exploring the same conc
 """
 
 from __future__ import annotations
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+
 
 import collections
 import math
